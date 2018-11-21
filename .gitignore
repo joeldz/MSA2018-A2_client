@@ -1,12 +1,12 @@
 
 # dependencies
-/jdez-app/node_modules
+/jdezanimescwebapp/node_modules
 
 # testing
-/jdez-app/coverage
+/jdezanimescwebapp/coverage
 
 # production
-/jdez-app/build
+/jdezanimescwebapp/build
 
 # misc
 .DS_Store
