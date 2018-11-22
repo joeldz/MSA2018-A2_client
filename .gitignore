@@ -1,12 +1,13 @@
+# See https://help.github.com/ignore-files/ for more about ignoring files.
 
 # dependencies
-/jdezanimescwebapp/node_modules
+/node_modules
 
 # testing
-/jdezanimescwebapp/coverage
+/coverage
 
 # production
-/jdezanimescwebapp/build
+/build
 
 # misc
 .DS_Store
