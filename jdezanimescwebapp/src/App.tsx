@@ -17,7 +17,7 @@ class App extends React.Component<{}, IState> {
 	constructor(props: any) {
         super(props)
         this.state = {
-			currentScreenshot: {"id":0, "title":"Loading ","url":"","tags":"⚆ _ ⚆","uploaded":"","width":"0","height":"0"},
+			currentScreenshot: {"id":0, "series":"Loading ", "episode":"0", "subtitle":"uwu", "timestamp":"00:00:00", "url":"","uploaded":"","width":"0","height":"0"},
 			screenshots: [],
 			open: false,
 			uploadFileList: null
@@ -43,24 +43,34 @@ class App extends React.Component<{}, IState> {
 			<div className="container">
 				<div className="row">
 					<div className="col-7">
-						<ScreenshotDetail currentScreenshot={this.state.currentScreenshot} />
+						<ScreenshotList screenshots={this.state.screenshots} selectNewScreenshot={this.selectNewScreenshot} searchBySubtitle={this.fetchScreenshots}/>
 					</div>
 					<div className="col-5">
-						<ScreenshotList screenshots={this.state.screenshots} selectNewScreenshot={this.selectNewScreenshot} searchByTag={this.fetchScreenshots}/>
+						<ScreenshotDetail currentScreenshot={this.state.currentScreenshot} />
 					</div>
 				</div>
 			</div>
 			<Modal open={open} onClose={this.onCloseModal}>
 				<form>
 					<div className="form-group">
-						<label>Screenshot Title</label>
-						<input type="text" className="form-control" id="screenshot-title-input" placeholder="Enter Title" />
+						<label>Screenshot Series</label>
+						<input type="text" className="form-control" id="screenshot-series-input" placeholder="Enter Series" />
 						<small className="form-text text-muted">You can edit any screenshot later</small>
 					</div>
 					<div className="form-group">
-						<label>Tag</label>
-						<input type="text" className="form-control" id="screenshot-tag-input" placeholder="Enter Tag" />
-						<small className="form-text text-muted">Tag is used for search</small>
+						<label>Screenshot Episode</label>
+						<input type="text" className="form-control" id="screenshot-episode-input" placeholder="Enter Series" />
+						<small className="form-text text-muted">You can edit any screenshot later</small>
+					</div>
+					<div className="form-group">
+						<label>Screenshot Timestamp</label>
+						<input type="text" className="form-control" id="screenshot-timestamp-input" placeholder="Enter Series" />
+						<small className="form-text text-muted">You can edit any screenshot later</small>
+					</div>
+					<div className="form-group">
+						<label>Subtitle</label>
+						<input type="text" className="form-control" id="screenshot-subtitle-input" placeholder="Enter Tag" />
+						<small className="form-text text-muted">Subtitle is used for search</small>
 					</div>
 					<div className="form-group">
 						<label>Image</label>
@@ -103,7 +113,7 @@ class App extends React.Component<{}, IState> {
 		.then(json => {
 			let currentScreenshot = json[0]
 			if (currentScreenshot === undefined) {
-				currentScreenshot = {"id":0, "title":"No screenshots (╯°□°）╯︵ ┻━┻","url":"","tags":"try a different tag","uploaded":"","width":"0","height":"0"}
+				currentScreenshot = {"id":0, "series":"No screenshots (╯°□°）╯︵ ┻━┻","episode":"0","timestamp":"00:00:00","url":"","subtitle":"try a different search term","uploaded":"","width":"0","height":"0"}
 			}
 			this.setState({
 				currentScreenshot,
@@ -119,21 +129,27 @@ class App extends React.Component<{}, IState> {
 	}
 
 	private uploadScreenshot() {
-		const titleInput = document.getElementById("screenshot-title-input") as HTMLInputElement
-		const tagInput = document.getElementById("screenshot-tag-input") as HTMLInputElement
+		const seriesInput = document.getElementById("screenshot-series-input") as HTMLInputElement
+		const episodeInput = document.getElementById("screenshot-episode-input") as HTMLInputElement
+		const timestampInput = document.getElementById("screenshot-timestamp-input") as HTMLInputElement
+		const subtitleInput = document.getElementById("screenshot-subtitle-input") as HTMLInputElement
 		const imageFile = this.state.uploadFileList[0]
 	
-		if (titleInput === null || tagInput === null || imageFile === null) {
+		if (seriesInput === null || episodeInput === null || timestampInput === null || subtitleInput === null || imageFile === null) {
 			return;
 		}
 	
-		const title = titleInput.value
-		const tag = tagInput.value
+		const series = seriesInput.value
+		const episode = episodeInput.value
+		const timestamp = timestampInput.value
+		const subtitle = subtitleInput.value
 		const url = "http://jdez501screenshotapi.azurewebsites.net/api/screenshot/upload"
 	
 		const formData = new FormData()
-		formData.append("Title", title)
-		formData.append("Tags", tag)
+		formData.append("Series", series)
+		formData.append("Episode", episode)
+		formData.append("Timestamp", timestamp)
+		formData.append("Subtitle", subtitle)
 		formData.append("image", imageFile)
 	
 		fetch(url, {

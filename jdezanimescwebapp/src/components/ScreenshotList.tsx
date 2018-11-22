@@ -3,13 +3,13 @@ import * as React from "react";
 interface IProps {
     screenshots: any[],
     selectNewScreenshot: any,
-    searchByTag: any
+    searchBySubtitle: any
 }
 
 export default class ScreenshotList extends React.Component<IProps, {}> {
     constructor(props: any) {
         super(props)   
-        this.searchByTag = this.searchByTag.bind(this)
+        this.searchBySubtitle = this.searchBySubtitle.bind(this)
     }
 
 	public render() {
@@ -17,9 +17,9 @@ export default class ScreenshotList extends React.Component<IProps, {}> {
 			<div className="container screenshot-list-wrapper">
                 <div className="row screenshot-list-heading">
                     <div className="input-group">
-                        <input type="text" id="search-tag-textbox" className="form-control" placeholder="Search By Tags" />
+                        <input type="text" id="search-subtitle-textbox" className="form-control" placeholder="Search By Tags" />
                         <div className="input-group-append">
-                            <div className="btn btn-outline-secondary search-button" onClick = {this.searchByTag}>Search</div>
+                            <div className="btn btn-outline-secondary search-button" onClick = {this.searchBySubtitle}>Search</div>
                         </div>
                     </div>  
                 </div>
@@ -45,9 +45,10 @@ export default class ScreenshotList extends React.Component<IProps, {}> {
         for (let i = 0; i < screenshotList.length; i++) {
             const children = []
             const screenshot = screenshotList[i]
-            children.push(<td key={"id" + i}>{screenshot.id}</td>)
-            children.push(<td key={"name" + i}>{screenshot.title}</td>)
-            children.push(<td key={"tags" + i}>{screenshot.tags}</td>)
+            children.push(<td key={"series" + i}>{screenshot.series}</td>)
+            children.push(<td key={"episode" + i}>{screenshot.episode}</td>)
+            children.push(<td key={"timestamp" + i}>{screenshot.timestamp}</td>)
+            children.push(<td key={"subtitle" + i}>{screenshot.subtitle}</td>)
             table.push(<tr key={i+""} id={i+""} onClick= {this.selectRow.bind(this, i)}>{children}</tr>)
         }
         return table
@@ -62,13 +63,12 @@ export default class ScreenshotList extends React.Component<IProps, {}> {
     }
 
     // Search screenshot by tag
-    private searchByTag() {
-        const textBox = document.getElementById("search-tag-textbox") as HTMLInputElement
+    private searchBySubtitle() {
+        const textBox = document.getElementById("search-subtitle-textbox") as HTMLInputElement
         if (textBox === null) {
             return;
         }
         const tag = textBox.value 
-        this.props.searchByTag(tag)  
+        this.props.searchBySubtitle(tag)  
     }
-
 }

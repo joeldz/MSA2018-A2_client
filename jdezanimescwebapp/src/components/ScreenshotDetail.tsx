@@ -26,10 +26,16 @@ export default class ScreenshotDetail extends React.Component<IProps, IState> {
 		return (
 			<div className="container screenshot-wrapper">
                 <div className="row screenshot-heading">
-                    <b>{currentScreenshot.title}</b>&nbsp; ({currentScreenshot.tags})
+                    <b>Series:&nbsp; {currentScreenshot.series}</b>
                 </div>
                 <div className="row screenshot-date">
-                    {currentScreenshot.uploaded}
+                    <b>Episode:&nbsp; </b>{currentScreenshot.episode}
+                </div>
+                <div className="row screenshot-date">
+                    <b>Timestamp:&nbsp; </b>{currentScreenshot.timestamp}
+                </div>
+                <div className="row screenshot-date">
+                    <b>Subtitle:&nbsp; </b>{currentScreenshot.subtitle}
                 </div>
                 <div className="row screenshot-img">
                     <img src={currentScreenshot.url}/>
@@ -43,14 +49,24 @@ export default class ScreenshotDetail extends React.Component<IProps, IState> {
                 <Modal open={open} onClose={this.onCloseModal}>
                     <form>
                         <div className="form-group">
-                            <label>Screenshot Title</label>
-                            <input type="text" className="form-control" id="screenshot-edit-title-input" placeholder="Enter Title"/>
+                            <label>Series</label>
+                            <input type="text" className="form-control" id="screenshot-edit-series-input" placeholder="Enter Title"/>
                             <small className="form-text text-muted">You can edit any screenshot later</small>
                         </div>
                         <div className="form-group">
-                            <label>Tag</label>
-                            <input type="text" className="form-control" id="screenshot-edit-tag-input" placeholder="Enter Tag"/>
-                            <small className="form-text text-muted">Tag is used for search</small>
+                            <label>Episode</label>
+                            <input type="text" className="form-control" id="screenshot-edit-episode-input" placeholder="Enter Tag"/>
+                            <small className="form-text text-muted">Any # from 1 to last episode</small>
+                        </div>
+                        <div className="form-group">
+                            <label>Timestamp</label>
+                            <input type="text" className="form-control" id="screenshot-edit-timestamp-input" placeholder="Enter Title"/>
+                            <small className="form-text text-muted">HH:MM:SS</small>
+                        </div>
+                        <div className="form-group">
+                            <label>Subtitle</label>
+                            <input type="text" className="form-control" id="screenshot-edit-subtitle-input" placeholder="Enter Tag"/>
+                            <small className="form-text text-muted">Subtitle is used for search</small>
                         </div>
                         <button type="button" className="btn" onClick={this.updateScreenshot}>Save</button>
                     </form>
@@ -75,26 +91,33 @@ export default class ScreenshotDetail extends React.Component<IProps, IState> {
     }
 
     private updateScreenshot(){
-        const titleInput = document.getElementById("screenshot-edit-title-input") as HTMLInputElement
-        const tagInput = document.getElementById("screenshot-edit-tag-input") as HTMLInputElement
+        const seriesInput = document.getElementById("screenshot-edit-series-input") as HTMLInputElement
+        const episodeInput = document.getElementById("screenshot-edit-episode-input") as HTMLInputElement
+        const timestampInput = document.getElementById("screenshot-edit-timestamp-input") as HTMLInputElement
+        const subtitleInput = document.getElementById("screenshot-edit-subtitle-input") as HTMLInputElement
     
-        if (titleInput === null || tagInput === null) {
+        
+        if (seriesInput === null || episodeInput === null || timestampInput === null || subtitleInput === null) {
             return;
         }
     
         const currentScreenshot = this.props.currentScreenshot
         const url = "https://jdez501screenshotapi.azurewebsites.net/api/screenshot/" + currentScreenshot.id
-        const updatedTitle = titleInput.value
-        const updatedTag = tagInput.value
+        const updatedSeries = seriesInput.value
+        const updatedEpisode = episodeInput.value
+        const updatedTimestamp = timestampInput.value
+        const updatedSubtitle = subtitleInput.value
         fetch(url, {
             body: JSON.stringify({
-                "height": currentScreenshot.height,
                 "id": currentScreenshot.id,
-                "tags": updatedTag,
-                "title": updatedTitle,
+                "series": updatedSeries,
+                "episode": updatedEpisode,
+                "timestamp": updatedTimestamp,
+                "subtitle": updatedSubtitle,
                 "uploaded": currentScreenshot.uploaded,
                 "url": currentScreenshot.url,
-                "width": currentScreenshot.width
+                "width": currentScreenshot.width,
+                "height": currentScreenshot.height
             }),
             headers: {'cache-control': 'no-cache','Content-Type': 'application/json'},
             method: 'PUT'
