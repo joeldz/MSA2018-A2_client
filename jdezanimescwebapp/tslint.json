@@ -4,7 +4,13 @@
     "exclude": [
       "config/**/*.js",
       "node_modules/**/*.ts",
-      "coverage/lcov-report/*.js"
+      "coverage/lcov-report/*.js",
+      "src/**/**/*.tsx",
+      "src/**/*.tsx",
+      "src/*.tsx"
     ]
+  },
+  "rules": {
+    "no-console": false
   }
 }
