@@ -1,12 +1,12 @@
 import * as React from "react";
 
 interface IProps {
-    memes: any[],
-    selectNewMeme: any,
+    screenshots: any[],
+    selectNewScreenshot: any,
     searchByTag: any
 }
 
-export default class MemeList extends React.Component<IProps, {}> {
+export default class ScreenshotList extends React.Component<IProps, {}> {
     constructor(props: any) {
         super(props)   
         this.searchByTag = this.searchByTag.bind(this)
@@ -14,8 +14,8 @@ export default class MemeList extends React.Component<IProps, {}> {
 
 	public render() {
 		return (
-			<div className="container meme-list-wrapper">
-                <div className="row meme-list-heading">
+			<div className="container screenshot-list-wrapper">
+                <div className="row screenshot-list-heading">
                     <div className="input-group">
                         <input type="text" id="search-tag-textbox" className="form-control" placeholder="Search By Tags" />
                         <div className="input-group-append">
@@ -23,7 +23,7 @@ export default class MemeList extends React.Component<IProps, {}> {
                         </div>
                     </div>  
                 </div>
-                <div className="row meme-list-table">
+                <div className="row screenshot-list-table">
                     <table className="table table-striped">
                         <tbody>
                             {this.createTable()}
@@ -34,34 +34,34 @@ export default class MemeList extends React.Component<IProps, {}> {
 		);
     }
 
-    // Construct table using meme list
+    // Construct table using screenshot list
 	private createTable() {
         const table:any[] = []
-        const memeList = this.props.memes
-        if (memeList == null) {
+        const screenshotList = this.props.screenshots
+        if (screenshotList == null) {
             return table
         }
 
-        for (let i = 0; i < memeList.length; i++) {
+        for (let i = 0; i < screenshotList.length; i++) {
             const children = []
-            const meme = memeList[i]
-            children.push(<td key={"id" + i}>{meme.id}</td>)
-            children.push(<td key={"name" + i}>{meme.title}</td>)
-            children.push(<td key={"tags" + i}>{meme.tags}</td>)
+            const screenshot = screenshotList[i]
+            children.push(<td key={"id" + i}>{screenshot.id}</td>)
+            children.push(<td key={"name" + i}>{screenshot.title}</td>)
+            children.push(<td key={"tags" + i}>{screenshot.tags}</td>)
             table.push(<tr key={i+""} id={i+""} onClick= {this.selectRow.bind(this, i)}>{children}</tr>)
         }
         return table
     }
     
-    // Meme selection handler to display selected meme in details component
+    // Screenshot selection handler to display selected screenshot in details component
     private selectRow(index: any) {
-        const selectedMeme = this.props.memes[index]
-        if (selectedMeme != null) {
-            this.props.selectNewMeme(selectedMeme)
+        const selectedScreenshot = this.props.screenshots[index]
+        if (selectedScreenshot != null) {
+            this.props.selectNewScreenshot(selectedScreenshot)
         }
     }
 
-    // Search meme by tag
+    // Search screenshot by tag
     private searchByTag() {
         const textBox = document.getElementById("search-tag-textbox") as HTMLInputElement
         if (textBox === null) {

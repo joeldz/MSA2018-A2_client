@@ -2,48 +2,48 @@ import * as React from "react";
 import Modal from 'react-responsive-modal';
 
 interface IProps {
-    currentMeme: any
+    currentScreenshot: any
 }
 
 interface IState {
     open: boolean
 }
 
-export default class MemeDetail extends React.Component<IProps, IState> {
+export default class ScreenshotDetail extends React.Component<IProps, IState> {
 
     constructor(props: any) {
         super(props)   
         this.state = {
             open: false
         }
-        this.updateMeme = this.updateMeme.bind(this)
-        this.deleteMeme = this.deleteMeme.bind(this)
+        this.updateScreenshot = this.updateScreenshot.bind(this)
+        this.deleteScreenshot = this.deleteScreenshot.bind(this)
     }
 
 	public render() {
-        const currentMeme = this.props.currentMeme
+        const currentScreenshot = this.props.currentScreenshot
         const { open } = this.state;
 		return (
 			<div className="container screenshot-wrapper">
                 <div className="row screenshot-heading">
-                    <b>{currentMeme.title}</b>&nbsp; ({currentMeme.tags})
+                    <b>{currentScreenshot.title}</b>&nbsp; ({currentScreenshot.tags})
                 </div>
                 <div className="row screenshot-date">
-                    {currentMeme.uploaded}
+                    {currentScreenshot.uploaded}
                 </div>
                 <div className="row screenshot-img">
-                    <img src={currentMeme.url}/>
+                    <img src={currentScreenshot.url}/>
                 </div>
                 
                 <div className="row screenshot-done-button">
-                    <div className="btn btn-primary btn-action" onClick={this.downloadMeme.bind(this, currentMeme.url)}>Download </div>
+                    <div className="btn btn-primary btn-action" onClick={this.downloadScreenshot.bind(this, currentScreenshot.url)}>Download </div>
                     <div className="btn btn-primary btn-action" onClick={this.onOpenModal}>Edit </div>
-                    <div className="btn btn-primary btn-action" onClick={this.deleteMeme.bind(this, currentMeme.id)}>Delete </div>
+                    <div className="btn btn-primary btn-action" onClick={this.deleteScreenshot.bind(this, currentScreenshot.id)}>Delete </div>
                 </div>
                 <Modal open={open} onClose={this.onCloseModal}>
                     <form>
                         <div className="form-group">
-                            <label>Meme Title</label>
+                            <label>Screenshot Title</label>
                             <input type="text" className="form-control" id="screenshot-edit-title-input" placeholder="Enter Title"/>
                             <small className="form-text text-muted">You can edit any screenshot later</small>
                         </div>
@@ -52,7 +52,7 @@ export default class MemeDetail extends React.Component<IProps, IState> {
                             <input type="text" className="form-control" id="screenshot-edit-tag-input" placeholder="Enter Tag"/>
                             <small className="form-text text-muted">Tag is used for search</small>
                         </div>
-                        <button type="button" className="btn" onClick={this.updateMeme}>Save</button>
+                        <button type="button" className="btn" onClick={this.updateScreenshot}>Save</button>
                     </form>
                 </Modal>
             </div>
@@ -70,11 +70,11 @@ export default class MemeDetail extends React.Component<IProps, IState> {
     };
 
     // Open screenshot image in new tab
-    private downloadMeme(url: any) {
+    private downloadScreenshot(url: any) {
         window.open(url);
     }
 
-    private updateMeme(){
+    private updateScreenshot(){
         const titleInput = document.getElementById("screenshot-edit-title-input") as HTMLInputElement
         const tagInput = document.getElementById("screenshot-edit-tag-input") as HTMLInputElement
     
@@ -82,19 +82,19 @@ export default class MemeDetail extends React.Component<IProps, IState> {
             return;
         }
     
-        const currentMeme = this.props.currentMeme
-        const url = "https://jdez501memeapi.azurewebsites.net/api/meme/" + currentMeme.id
+        const currentScreenshot = this.props.currentScreenshot
+        const url = "https://jdez501screenshotapi.azurewebsites.net/api/screenshot/" + currentScreenshot.id
         const updatedTitle = titleInput.value
         const updatedTag = tagInput.value
         fetch(url, {
             body: JSON.stringify({
-                "height": currentMeme.height,
-                "id": currentMeme.id,
+                "height": currentScreenshot.height,
+                "id": currentScreenshot.id,
                 "tags": updatedTag,
                 "title": updatedTitle,
-                "uploaded": currentMeme.uploaded,
-                "url": currentMeme.url,
-                "width": currentMeme.width
+                "uploaded": currentScreenshot.uploaded,
+                "url": currentScreenshot.url,
+                "width": currentScreenshot.width
             }),
             headers: {'cache-control': 'no-cache','Content-Type': 'application/json'},
             method: 'PUT'
@@ -109,8 +109,8 @@ export default class MemeDetail extends React.Component<IProps, IState> {
         })
     }
 
-    private deleteMeme(id: any) {
-        const url = "http://jdez501memeapi.azurewebsites.net/api/meme/" + id
+    private deleteScreenshot(id: any) {
+        const url = "http://jdez501screenshotapi.azurewebsites.net/api/screenshot/" + id
     
         fetch(url, {
             method: 'DELETE'
