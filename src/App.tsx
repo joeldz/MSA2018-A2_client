@@ -102,9 +102,9 @@ class App extends React.Component<{}, IState> {
 	}
 
 	private fetchScreenshots(tag: any) {
-		let url = "http://jdez501screenshotapi.azurewebsites.net/api/screenshot"
+		let url = "http://jdez501screenshotapi.azurewebsites.net/api/Screenshot"
 		if (tag !== "") {
-			url += "/tag?=" + tag
+			url += "/tag?tags=" + tag
 		}
 		fetch(url, {
 			method: 'GET'
@@ -143,7 +143,7 @@ class App extends React.Component<{}, IState> {
 		const episode = episodeInput.value
 		const timestamp = timestampInput.value
 		const subtitle = subtitleInput.value
-		const url = "http://jdez501screenshotapi.azurewebsites.net/api/screenshot/upload"
+		const url = "http://jdez501screenshotapi.azurewebsites.net/api/Screenshot/upload"
 	
 		const formData = new FormData()
 		formData.append("Series", series)
